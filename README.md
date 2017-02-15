@@ -65,7 +65,7 @@ Take this site as a reference, from point 2, about how to get running an Apache 
 
 Below the steps to create the certificates.
 
-```
+```PowerShell
 Windows PowerShell
 Copyright (C) 2016 Microsoft Corporation. All rights reserved.
 
@@ -195,7 +195,8 @@ I can't connect to 10080 port from the app. I have to connect to 10443 instead. 
 Install Docker in windows. Follow the [official documentation](https://docs.docker.com/docker-for-windows/). It should be enough with points 1 and 2.
 Then come back to the Firmware server deployment guide, and [continue from point 1.2](https://github.com/Seeed-Studio/Wio_Link/wiki/Server%20Deployment%20Guide#12-pull-down-the-image), to pull the image, run it and set it up.
 Below the steps run in the shell (in bold the commands run):
-```
+
+```PowerShell
 Windows PowerShell
 Copyright (C) 2016 Microsoft Corporation. All rights reserved.
 
