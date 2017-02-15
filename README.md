@@ -76,12 +76,12 @@ PS C:\xampp> cd .\apache\
 PS C:\xampp\apache> cd .\bin\
 
 
-PS C:\xampp\apache\bin> .\openssl req -config openssl.cnf -new -out luminosamaintenance.csr -keyout luminosamaintenance.pem
+PS C:\xampp\apache\bin> .\openssl req -config openssl.cnf -new -out foobar.csr -keyout foobar.pem
 WARNING: can't open config file: c:/openssl-1.0.2j-win32/ssl/openssl.cnf
 Generating a 1024 bit RSA private key
 .......................++++++
 ...................++++++
-writing new private key to 'luminosamaintenance.pem'
+writing new private key to 'foobar.pem'
 Enter PEM pass phrase:
 Verifying - Enter PEM pass phrase:
 -----
@@ -94,26 +94,25 @@ If you enter '.', the field will be left blank.
 -----
 Country Name (2 letter code) []:US
 State or Province Name (full name) []:NY
-Locality Name (eg, city) []:Hyde Park
-Organization Name (eg, company) []:Mariapolis Luminosa
-Organizational Unit Name (eg, section) []:Maintenance Team
+Locality Name (eg, city) []:Foo Bar
+Organization Name (eg, company) []:Foo Bar
+Organizational Unit Name (eg, section) []:Foo Bar Team
 Common Name (eg, your websites domain name) []:192.168.20.37
-Email Address []:luminosa1.info@gmail.com
+Email Address []:foobar@gmail.com
 
 Please enter the following 'extra' attributes
 to be sent with your certificate request
 A challenge password []:
 
-PS C:\xampp\apache\bin> .\openssl rsa -in luminosamaintenance.pem -out luminosamaintenance.key
+PS C:\xampp\apache\bin> .\openssl rsa -in foobar.pem -out foobar.key
 WARNING: can't open config file: c:/openssl-1.0.2j-win32/ssl/openssl.cnf
-Enter pass phrase for luminosamaintenance.pem:
+Enter pass phrase for foobar.pem:
 writing RSA key
 
-PS C:\xampp\apache\bin> .\openssl x509 -in luminosamaintenance.csr -out luminosamaintenance.cert -req -signkey luminosam
-aintenance.key -days 365
+PS C:\xampp\apache\bin> .\openssl x509 -in foobar.csr -out foobar.cert -req -signkey foobar.key -days 365
 WARNING: can't open config file: c:/openssl-1.0.2j-win32/ssl/openssl.cnf
 Signature ok
-subject=/C=US/ST=NY/L=Hyde Park/O=Mariapolis Luminosa/OU=Maintenance Team/CN=192.168.20.37/emailAddress=luminosa1.info@gmail.com
+subject=/C=US/ST=NY/L=Foo Bar/O=Foo Bar/OU=Foo Bar Team/CN=192.168.20.37/emailAddress=foobar@gmail.com
 Getting Private key
 PS C:\xampp\apache\bin>
 ```
@@ -187,6 +186,7 @@ NameVirtualHost 192.168.20.37:10080
     ProxyPassReverse /v1/node/resources http://127.0.0.1:10090/v1/node/resources
 </VirtualHost>
 ```
+[Here the link](sample_files/httpd-vhosts.conf) to the file
 
 ### Unresolved issue connecting to server by http
 I can't connect to 10080 port from the app. I have to connect to 10443 instead. I don't know why. But I don't have time to dig into more.
