@@ -1,0 +1,19 @@
+// persistence strategies have a name and a definition and are referred to in the "Items" section
+Strategies {
+	// for rrd charts, we need a cron strategy
+	everyMinute : "0 * * * * ?"
+    everyHour : "0 0 * * * ?"
+    everyDay  : "0 0 0 * * ?"
+
+    // if no strategy is specified for an item entry below, the default list will be used
+    default = everyChange
+}
+
+Items {
+	// persist all items once a day and on every change and restore them from the db at startup
+    * : strategy = everyChange, everyMinute, restoreOnStartup
+
+	// let's only store temperature values in rrd
+	WioLinkMoisture: strategy = everyMinute, restoreOnStartup
+	WioLinkMoisture*,WioLinkMoisture_* : strategy = everyMinute, restoreOnStartup
+}

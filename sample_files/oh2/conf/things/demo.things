@@ -1,0 +1,4 @@
+ntp:ntp:demo [ hostname="nl.pool.ntp.org", refreshInterval=60, refreshNtp=30 ]
+
+astro:sun:mariapolisluminosa  [ geolocation="41.783333,-73.9", altitude=73, interval=60 ]
+

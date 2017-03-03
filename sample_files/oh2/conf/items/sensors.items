@@ -1,0 +1,92 @@
+
+DateTime CurrentDate            "Date [%1$tA, %1$td.%1$tm.%1$tY]"   <calendar>  { channel="ntp:ntp:demo:dateTime" }
+
+/* wio link */
+Group WioLinkMoisture_Chart
+Number WioLinkMoisture_Moisture    "Current Moisture [%.1f]" <temperature> (WioLinkMoisture_Chart) { http="<[https://192.168.11.22/v1/node/GroveMoistureA0/moisture?access_token=1234567890:5000:JSONPATH($.moisture)]" }
+Number WioLinkMoisture_Max         "Moisture Todays Maximum [%.1f]"      <temperature> (WioLinkMoisture_Chart)
+Number WioLinkMoisture_Min         "Moisture Todays Minimum [%.1f]"      <temperature> (WioLinkMoisture_Chart)
+Number WioLinkMoisture_Period      "Moisture Chart Period"
+DateTime WioLinkMoisture_LastUpdate     "Moisture Last Update [%1$ta %1$tR]"     <clock>
+
+Switch	WioLinkSpeaker             "Wio Link Speaker" (WioLinkMoisture_Chart) { http=">[ON:POST:https://192.168.11.22/v1/node/GroveSpeakerD1/sound_start/3000?access_token=1234567890] >[OFF:POST:https://192.168.11.22/v1/node/GroveSpeakerD1/sound_stop?access_token=1234567890]" }
+Number WioLinkMoisture             "Moisture [%.1f]"  <temperature>  (WioLinkMoisture_Chart) { http="<[https://192.168.11.22/v1/node/GroveMoistureA0/moisture?access_token=1234567890:5000:JSONPATH($.moisture)]" }
+Switch  WioLinkAlert "Wio Link Alert" (WioLinkMoisture_Chart) { }
+
+Number WioLinkTemperature "Temperature [%.1f]"  <temperature>  (WioLinkMoisture_Chart) { http="<[https://192.168.11.22/v1/node/GroveMoistureA0/moisture?access_token=1234567890:5000:JSONPATH($.moisture)]" }
+
+
+/* Temperature */
+Group WioLinkTemperature_Chart
+Number WioLinkTemp               "Current Temperature °F [%.1f]" <temperature> (WioLinkTemperature_Chart) { http="<[https://192.168.11.22/v1/node/GroveTempHumD0/temperature_f?access_token=1234567890:5000:JSONPATH($.fahrenheit_degree)]" }
+Number WioLinkTempCelsius        "Current Temperature °C [%.1f]" <temperature> (WioLinkTemperature_Chart) { http="<[https://192.168.11.22/v1/node/GroveTempHumD0/temperature?access_token=1234567890:5000:JSONPATH($.celsius_degree)]" }
+Number WioLinkHumid              "Current Humidity [%.1f]%"     <temperature> (WioLinkTemperature_Chart) { http="<[https://192.168.11.22/v1/node/GroveTempHumD0/humidity?access_token=1234567890:5000:JSONPATH($.humidity)]" }
+Number WioLinkTemp_Max           "Temperature °F Todays Maximum [%.1f]"      <temperature> (WioLinkTemperature_Chart)
+Number WioLinkTemp_Min           "Temperature °F Todays Minimum [%.1f]"      <temperature> (WioLinkTemperature_Chart)
+Number WioLinkTemp_Period        "Temperature °F Chart Period"
+Number WioLinkHumid_Max          "Humidity Todays Maximum [%.1f]"      <temperature> (WioLinkTemperature_Chart)
+Number WioLinkHumid_Min          "Humidity Todays Minimum [%.1f]"      <temperature> (WioLinkTemperature_Chart)
+Number WioLinkHumid_Period       "Humidity Chart Period"
+DateTime WioLinkTemp_LastUpdate  "Temperature Last Update [%1$ta %1$tR]"     <clock>
+DateTime WioLinkHumid_LastUpdate "Temperature Last Update [%1$ta %1$tR]"     <clock>
+
+/********** CONFERENCE CENTER ***********/
+Group CC_Temp_Chart
+
+// Buttons
+Switch	CC_Speaker           "Speaker" (CC_Temp_Chart) { http=">[ON:POST:https://192.168.11.22/v1/node/GroveSpeakerD1/sound_start/3000?access_token=1234567890] >[OFF:POST:https://192.168.11.22/v1/node/GroveSpeakerD1/sound_stop?access_token=1234567890]" }
+Switch  CC_Alert             "Alert"   (CC_Temp_Chart) { }
+
+// Temperature
+Number CC_Temp               "Current Temperature °F [%.1f]"          <temperature> (CC_Temp_Chart) { http="<[https://192.168.11.22/v1/node/GroveTempHumD0/temperature_f?access_token=1234567890:5000:JSONPATH($.fahrenheit_degree)]" }
+Number CC_TempCelsius        "Current Temperature °C [%.1f]"          <temperature> (CC_Temp_Chart) { http="<[https://192.168.11.22/v1/node/GroveTempHumD0/temperature?access_token=1234567890:5000:JSONPATH($.celsius_degree)]" }
+Number CC_Humid              "Current Humidity [%.1f]%"               <temperature> (CC_Temp_Chart) { http="<[https://192.168.11.22/v1/node/GroveTempHumD0/humidity?access_token=1234567890:5000:JSONPATH($.humidity)]" }
+Number CC_Temp_Max           "Temperature °F Todays Maximum [%.1f]"   <temperature> (CC_Temp_Chart)
+Number CC_Temp_Min           "Temperature °F Todays Minimum [%.1f]"   <temperature> (CC_Temp_Chart)
+Number CC_Temp_Period        "Temperature °F Chart Period"
+Number CC_Humid_Max          "Humidity Todays Maximum [%.1f]"         <temperature> (CC_Temp_Chart)
+Number CC_Humid_Min          "Humidity Todays Minimum [%.1f]"         <temperature> (CC_Temp_Chart)
+Number CC_Humid_Period       "Humidity Chart Period"
+DateTime CC_Temp_LastUpdate  "Temperature Last Update [%1$ta %1$tR]"  <clock>
+DateTime CC_Humid_LastUpdate "Temperature Last Update [%1$ta %1$tR]"  <clock>
+
+// moisture
+Number CC_Moisture               "Current Moisture [%.1f]"             <temperature> (CC_Temp_Chart) { http="<[https://192.168.11.22/v1/node/GroveMoistureA0/moisture?access_token=1234567890:5000:JSONPATH($.moisture)]" }
+Number CC_Moisture_Max           "Moisture Todays Maximum [%.1f]"      <temperature> (CC_Temp_Chart)
+Number CC_Moisture_Min           "Moisture Todays Minimum [%.1f]"      <temperature> (CC_Temp_Chart)
+Number CC_Moisture_Period        "Moisture Chart Period"
+DateTime CC_Moisture_LastUpdate  "Moisture Last Update [%1$ta %1$tR]"  <clock>
+/****************************************/
+
+/* Astro binding */
+
+DateTime Sunrise_Time       "Sunrise [%1$tH:%1$tM]" <clock> { channel="astro:sun:mariapolisluminosa:rise#start" }
+DateTime Sunset_Time        "Sunset [%1$tH:%1$tM]"  <clock> { channel="astro:sun:mariapolisluminosa:set#start" }
+
+// season
+String Season_Name      "Season [%s]"                             <calendar> { channel="astro:sun:mariapolisluminosa:season#name" }
+DateTime Season_Spring  "Spring [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"  <calendar> { channel="astro:sun:mariapolisluminosa:season#spring" }
+DateTime Season_Summer  "Summer [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"  <calendar> { channel="astro:sun:mariapolisluminosa:season#summer" }
+DateTime Season_Autumn  "Autumn [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"  <calendar> { channel="astro:sun:mariapolisluminosa:season#autumn" }
+DateTime Season_Winter  "Winter [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"  <calendar> { channel="astro:sun:mariapolisluminosa:season#winter" }
+
+
+/* Weather binding */
+Number   WBTemperature       "Temperature [%.2f °F]"     <temperature>  {weather="locationId=mariapolisluminosa, type=temperature, property=current, unit=fahrenheit"}
+Number   WBHumidity          "Humidity [%d %%]"          <temperature> 	{weather="locationId=mariapolisluminosa, type=atmosphere, property=humidity"}
+Number   WBPressure          "Pressure [%.2f mb]"        <temperature>  {weather="locationId=mariapolisluminosa, type=atmosphere, property=pressure"}
+
+DateTime WBObservationTime0  "Observation time [%1$td.%1$tm.%1$tY %1$tH:%1$tM]" 	{weather="locationId=mariapolisluminosa, forecast=0, type=condition, property=observationTime"}
+DateTime WBObservationTime1  "Observation time [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"   {weather="locationId=mariapolisluminosa, forecast=1, type=condition, property=observationTime"}
+DateTime WBObservationTime2  "Observation time [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"   {weather="locationId=mariapolisluminosa, forecast=2, type=condition, property=observationTime"}
+
+Number   WBTemp_Min0         "Temperature min [%.2f °F]" <temperature>  {weather="locationId=mariapolisluminosa, forecast=0, type=temperature, property=min, unit=fahrenheit"}
+Number   WBTemp_Max0         "Temperature max [%.2f °F]" <temperature>  {weather="locationId=mariapolisluminosa, forecast=0, type=temperature, property=max, unit=fahrenheit"}
+Number   WBTemp_Min1         "Temperature min [%.2f °F]" <temperature>  {weather="locationId=mariapolisluminosa, forecast=1, type=temperature, property=min, unit=fahrenheit"}
+Number   WBTemp_Max1         "Temperature max [%.2f °F]" <temperature>  {weather="locationId=mariapolisluminosa, forecast=1, type=temperature, property=max, unit=fahrenheit"}
+Number   WBTemp_Min2         "Temperature min [%.2f °F]" <temperature>  {weather="locationId=mariapolisluminosa, forecast=2, type=temperature, property=min, unit=fahrenheit"}
+Number   WBTemp_Max2         "Temperature max [%.2f °F]" <temperature>  {weather="locationId=mariapolisluminosa, forecast=2, type=temperature, property=max, unit=fahrenheit"}
+
+String   WBCondition0        "Condition [%s]"    	        {weather="locationId=mariapolisluminosa, forecast=0, type=condition, property=text"}
+String   WBCondition1        "Condition [%s]"   	        {weather="locationId=mariapolisluminosa, forecast=1, type=condition, property=text"}
+String   WBCondition2        "Condition [%s]"				{weather="locationId=mariapolisluminosa, forecast=2, type=condition, property=text"}

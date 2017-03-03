@@ -1,0 +1,194 @@
+// Wio link testing
+import org.openhab.core.library.types.DecimalType
+import java.util.List
+import java.util.Date
+
+val String mailTo = "luminosa.servers@gmail.com"
+val int moistureThreshold = 100
+// end Wio link testing
+
+/**
+ *  Setting max and min of each day
+ */
+rule "WioLinkMoisture set daily max and min"
+when
+        Item WioLinkMoisture_Moisture changed or
+        Time cron "0 0 0 * * ?" or
+        System started
+then
+        val max = WioLinkMoisture_Moisture.maximumSince(now.withTimeAtStartOfDay)
+        val min = WioLinkMoisture_Moisture.minimumSince(now.withTimeAtStartOfDay)
+        if( max != null && min != null) {
+                postUpdate(WioLinkMoisture_Max, max.state)
+                postUpdate(WioLinkMoisture_Min, min.state)
+        }
+end
+rule "WioLinkTemperature set daily max and min"
+when
+        Item WioLinkTemp changed or
+        Time cron "0 0 0 * * ?" or
+        System started
+then
+        val max = WioLinkTemp.maximumSince(now.withTimeAtStartOfDay)
+        val min = WioLinkTemp.minimumSince(now.withTimeAtStartOfDay)
+        if( max != null && min != null) {
+                postUpdate(WioLinkTemp_Max, max.state)
+                postUpdate(WioLinkTemp_Min, min.state)
+        }
+end
+rule "WioLinkNumidity set daily max and min"
+when
+        Item WioLinkHumid changed or
+        Time cron "0 0 0 * * ?" or
+        System started
+then
+        val max = WioLinkHumid.maximumSince(now.withTimeAtStartOfDay)
+        val min = WioLinkHumid.minimumSince(now.withTimeAtStartOfDay)
+        if( max != null && min != null) {
+                postUpdate(WioLinkHumid_Max, max.state)
+                postUpdate(WioLinkHumid_Min, min.state)
+        }
+end
+
+/**
+ * Setting last update values
+ */
+rule "WioLink Moisture records last update time"
+when
+  Item WioLinkMoisture_Moisture received update
+then
+  postUpdate(WioLinkMoisture_LastUpdate, new DateTimeType())
+end
+rule "WioLink Temperature records last update time"
+when
+  Item WioLinkTemp received update
+then
+  postUpdate(WioLinkTemp_LastUpdate, new DateTimeType())
+end
+rule "WioLink Humidiry records last update time"
+when
+  Item WioLinkHumid received update
+then
+  postUpdate(WioLinkHumid_LastUpdate, new DateTimeType())
+end
+
+/**
+ * setting alerts
+ */
+rule "Enable alerts"
+when Item WioLinkAlert received command ON
+then
+  logWarn("Enabling alerts", "making noise")
+  sendBroadcastNotification("Enable WioLink Alert on Moiture sensor, value "+WioLinkMoisture.state+", at " + CurrentDate.state.format("%tr") +" on "+ CurrentDate.state.format("%tD"))
+  sendHttpPostRequest('https://192.168.20.39/v1/node/GroveSpeakerD1/sound_start/3000?access_token=afe16bf23e9b614308ed025d9f95e142')
+  sendMail("luminosa.servers@gmail.com, paul.belcher@msn.com, lumimaintenance@optonline.net", "WioLink Moisture Alert", "Enable WioLink Alert on Moiture sensor, value "+WioLinkMoisture.state+", at " + CurrentDate.state.format("%tr") +" on "+ CurrentDate.state.format("%tD"))
+end
+
+rule "Disable alerts"
+when Item WioLinkAlert received command OFF
+then
+  logWarn("Disable alerts", "stopping noise")
+  sendHttpPostRequest('https://192.168.20.39/v1/node/GroveSpeakerD1/sound_stop?access_token=afe16bf23e9b614308ed025d9f95e142')
+end
+
+rule "Auto alert Moisture below threshold"
+when Item WioLinkMoisture received update
+then
+  logWarn("Auto alert moisture", "checking moisture value to enable test, value "+WioLinkMoisture.state)
+  if(WioLinkMoisture.state > 100) {
+    sendCommand(WioLinkAlert, ON)
+  } 
+end
+
+/****** CONFERENCE CENTER **************/
+/**
+ *  Setting max and min of each day
+ */
+rule "CC_Moisture set daily max and min"
+when
+        Item CC_Moisture changed or
+        Time cron "0 0 0 * * ?" or
+        System started
+then
+        val max = CC_Moisture.maximumSince(now.withTimeAtStartOfDay)
+        val min = CC_Moisture.minimumSince(now.withTimeAtStartOfDay)
+        if( max != null && min != null) {
+                postUpdate(CC_Moisture_Max, max.state)
+                postUpdate(CC_Moisture_Min, min.state)
+        }
+end
+rule "CC_Temp set daily max and min"
+when
+        Item CC_Temp changed or
+        Time cron "0 0 0 * * ?" or
+        System started
+then
+        val max = CC_Temp.maximumSince(now.withTimeAtStartOfDay)
+        val min = CC_Temp.minimumSince(now.withTimeAtStartOfDay)
+        if( max != null && min != null) {
+                postUpdate(CC_Temp_Max, max.state)
+                postUpdate(CC_Temp_Min, min.state)
+        }
+end
+rule "CC_Humid set daily max and min"
+when
+        Item CC_Humid changed or
+        Time cron "0 0 0 * * ?" or
+        System started
+then
+        val max = CC_Humid.maximumSince(now.withTimeAtStartOfDay)
+        val min = CC_Humid.minimumSince(now.withTimeAtStartOfDay)
+        if( max != null && min != null) {
+                postUpdate(CC_Humid_Max, max.state)
+                postUpdate(CC_Humid_Min, min.state)
+        }
+end
+
+/* Setting last update values */
+rule "CC_Moisture records last update time"
+when
+  Item CC_Moisture received update
+then
+  postUpdate(CC_Moisture_LastUpdate, new DateTimeType())
+end
+rule "CC_Temp records last update time"
+when
+  Item CC_Temp received update
+then
+  postUpdate(CC_Temp_LastUpdate, new DateTimeType())
+end
+rule "CC_Humid records last update time"
+when
+  Item CC_Humid received update
+then
+  postUpdate(CC_Humid_LastUpdate, new DateTimeType())
+end
+
+/* setting alerts */
+rule "CC_Alert enabled"
+when Item CC_Alert received command ON
+then
+  logWarn("CC_Alert enabled", "making noise")
+  sendBroadcastNotification("Enable CC_Alert on Moisture sensor, value "+CC_Moisture.state+", at " + CurrentDate.state.format("%tr") +" on "+ CurrentDate.state.format("%tD"))
+  sendHttpPostRequest('https://192.168.20.39/v1/node/GroveSpeakerD1/sound_start/3000?access_token=afe16bf23e9b614308ed025d9f95e142')
+  sendMail(mailTo, "CC_Moisture Alert", "Enable alert on CC_Moisture sensor, value "+CC_Moisture.state+", at " + CurrentDate.state.format("%tr") +" on "+ CurrentDate.state.format("%tD"))
+end
+
+rule "CC_Alert disabled"
+when Item CC_Alert received command OFF
+then
+  logWarn("CC_Alert disabled", "stopping noise")
+  sendHttpPostRequest('https://192.168.20.39/v1/node/GroveSpeakerD1/sound_stop?access_token=afe16bf23e9b614308ed025d9f95e142')
+end
+
+rule "Auto alert CC_Moisture below threshold"
+when Item CC_Moisture received update
+then
+  logWarn("CC_Moisture auto alert", "checking CC_Moisture value to enable test, value "+WioLinkMoisture.state+", threshold: "+moistureThreshold) // For debug purpose
+  if(CC_Moisture.state > moistureThreshold) {
+    logWarn("CC_Moisture auto alert", "checking CC_Moisture value to enable test, value "+WioLinkMoisture.state+", threshold: "+moistureThreshold) // For debug purpose
+    sendCommand(CC_Alert, ON)
+  } 
+end
+/***************************************/
+// vim: syntax=Xtend

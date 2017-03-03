@@ -1,0 +1,143 @@
+sitemap default label="Main Menu"
+{
+	Frame label="Administration box" {
+		Switch item=WioLinkSpeaker
+        Switch item=WioLinkAlert
+	}
+	
+
+	Frame label="Maintenance office" {
+			Text item=WioLinkMoisture_Moisture /*valuecolor=[WioLinkMoisture_LastUpdate=="NULL"="lightgray",WioLinkMoisture_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"]*/ {
+					Frame { 
+							Text item=WioLinkMoisture_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=WioLinkMoisture_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=WioLinkMoisture_LastUpdate /*visibility=[WioLinkMoisture_LastUpdate>30]*/ valuecolor=[WioLinkMoisture_LastUpdate>120="orange", WioLinkMoisture_LastUpdate>300="red"]
+					}
+					Frame {
+							Switch item=WioLinkMoisture_Period label="Chart Period" icon="chart" mappings=[0="Hour", 1="Day", 2="Week"]
+							Chart item=WioLinkMoisture_Chart period=h refresh=600 visibility=[WioLinkMoisture_Period==0, WioLinkMoisture_Period=="NULL"]
+							Chart item=WioLinkMoisture_Chart period=D refresh=3600 visibility=[WioLinkMoisture_Period==1]
+							Chart item=WioLinkMoisture_Chart period=W refresh=3600 visibility=[WioLinkMoisture_Period==2]
+					}
+			}
+	
+			Text item=WioLinkTemp /*valuecolor=[WioLinkMoisture_LastUpdate=="NULL"="lightgray",WioLinkMoisture_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"]*/ {
+					Frame { 
+							Text item=WioLinkTemp_Max valuecolor=[>40="orange",>30="green",>5="blue",<=5="blue"]
+							Text item=WioLinkTemp_Min valuecolor=[>40="orange",>30="green",>5="blue",<=5="blue"]
+							Text item=WioLinkTemp_LastUpdate /*visibility=[WioLinkTemp_LastUpdate>30]*/ valuecolor=[WioLinkTemp_LastUpdate>120="orange", WioLinkTemp_LastUpdate>300="red"]
+							Text item=WioLinkTempCelsius valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+					}
+					Frame {
+							Switch item=WioLinkTemp_Period label="Chart Period" icon="chart" mappings=[0="Hour", 1="Day", 2="Week"]
+							Chart item=WioLinkTemp period=h refresh=600 visibility=[WioLinkTemp_Period==0, WioLinkTemp_Period=="NULL"]
+							Chart item=WioLinkTemp period=D refresh=3600 visibility=[WioLinkTemp_Period==1]
+							Chart item=WioLinkTemp period=W refresh=3600 visibility=[WioLinkTemp_Period==2]
+					}
+			}
+			
+			Text item=WioLinkHumid /*valuecolor=[WioLinkHumid_LastUpdate=="NULL"="lightgray",WioLinkHumid_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"]*/ {
+					Frame { 
+							Text item=WioLinkHumid_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=WioLinkHumid_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=WioLinkHumid_LastUpdate /*visibility=[WioLinkHumid_LastUpdate>30]*/ valuecolor=[WioLinkMoisture_LastUpdate>120="orange", WioLinkMoisture_LastUpdate>300="red"]
+					}
+					Frame {
+							Switch item=WioLinkHumid_Period label="Chart Period" icon="chart" mappings=[0="Hour", 1="Day", 2="Week"]
+							Chart item=WioLinkHumid period=h refresh=600 visibility=[WioLinkHumid_Period==0, WioLinkHumid_Period=="NULL"]
+							Chart item=WioLinkHumid period=D refresh=3600 visibility=[WioLinkHumid_Period==1]
+							Chart item=WioLinkHumid period=W refresh=3600 visibility=[WioLinkHumid_Period==2]
+					}
+			}
+	}
+	
+	Frame label="Conference Center" {
+			
+			Switch item=CC_Speaker
+			Switch item=CC_Alert
+			
+			Text item=CC_Moisture /*valuecolor=[CC_Moisture_LastUpdate=="NULL"="lightgray",CC_Moisture_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"]*/ {
+					Frame { 
+							Text item=CC_Moisture_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=CC_Moisture_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=CC_Moisture_LastUpdate /*visibility=[CC_Moisture_LastUpdate>30]*/ valuecolor=[CC_Moisture_LastUpdate>120="orange", CC_Moisture_LastUpdate>300="red"]
+					}
+					Frame {
+							Switch item=CC_Moisture_Period label="Chart Period" icon="chart" mappings=[0="Hour", 1="Day", 2="Week"]
+							Chart item=CC_Moisture period=h refresh=600 visibility=[CC_Moisture_Period==0, CC_Moisture_Period=="NULL"]
+							Chart item=CC_Moisture period=D refresh=3600 visibility=[CC_Moisture_Period==1]
+							Chart item=CC_Moisture period=W refresh=3600 visibility=[CC_Moisture_Period==2]
+					}
+			}
+	
+			Text item=CC_Temp /*valuecolor=[CC_Moisture_LastUpdate=="NULL"="lightgray",CC_Moisture_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"]*/ {
+					Frame { 
+							Text item=CC_Temp_Max valuecolor=[>40="orange",>30="green",>5="blue",<=5="blue"]
+							Text item=CC_Temp_Min valuecolor=[>40="orange",>30="green",>5="blue",<=5="blue"]
+							Text item=CC_Temp_LastUpdate /*visibility=[CC_Temp_LastUpdate>30]*/ valuecolor=[CC_Temp_LastUpdate>120="orange", CC_Temp_LastUpdate>300="red"]
+							Text item=CC_TempCelsius valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+					}
+					Frame {
+							Switch item=CC_Temp_Period label="Chart Period" icon="chart" mappings=[0="Hour", 1="Day", 2="Week"]
+							Chart item=CC_Temp period=h refresh=600 visibility=[CC_Temp_Period==0, CC_Temp_Period=="NULL"]
+							Chart item=CC_Temp period=D refresh=3600 visibility=[CC_Temp_Period==1]
+							Chart item=CC_Temp period=W refresh=3600 visibility=[CC_Temp_Period==2]
+					}
+			}
+			
+			Text item=CC_Humid /*valuecolor=[CC_Humid_LastUpdate=="NULL"="lightgray",CC_Humid_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"]*/ {
+					Frame { 
+							Text item=CC_Humid_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=CC_Humid_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+							Text item=CC_Humid_LastUpdate /*visibility=[CC_Humid_LastUpdate>30]*/ valuecolor=[CC_Moisture_LastUpdate>120="orange", CC_Moisture_LastUpdate>300="red"]
+					}
+					Frame {
+							Switch item=CC_Humid_Period label="Chart Period" icon="chart" mappings=[0="Hour", 1="Day", 2="Week"]
+							Chart item=CC_Humid period=h refresh=600 visibility=[CC_Humid_Period==0, CC_Humid_Period=="NULL"]
+							Chart item=CC_Humid period=D refresh=3600 visibility=[CC_Humid_Period==1]
+							Chart item=CC_Humid period=W refresh=3600 visibility=[CC_Humid_Period==2]
+					}
+			}
+	}
+	
+	Frame label="Astro information" {
+		Text item=Sunrise_Time
+        Text item=Sunset_Time
+		Text item=Season_Name
+		Text item=Season_Spring
+		Text item=Season_Summer
+		Text item=Season_Autumn
+		Text item=Season_Winter
+		
+	}
+
+	Frame label="Forecast Hyde Park, NY" {
+		
+		Text item=WBTemperature
+		Text item=WBHumidity
+		Text item=WBPressure
+
+		Frame label="Today" {
+			Text item=WBObservationTime0
+			Text item=WBTemp_Min0
+			Text item=WBTemp_Max0
+			Text item=WBCondition0
+		}
+		
+		Frame label="Tomorrow" {
+			Text item=WBObservationTime1
+			Text item=WBTemp_Min1
+			Text item=WBTemp_Max1
+			Text item=WBCondition1
+		}
+		
+		Frame label="After tomorrow" {
+			Text item=WBObservationTime2
+			Text item=WBTemp_Min2
+			Text item=WBTemp_Max2
+			Text item=WBCondition2
+		}
+	}
+}
+
+// vim: syntax=Xtend
